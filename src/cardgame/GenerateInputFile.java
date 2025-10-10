@@ -26,7 +26,6 @@ public class GenerateInputFile {
             System.out.println("success");
         } catch (IOException e) {
             System.out.println("error failure");
-            e.printStackTrace();
         }
 
         System.out.println(numberOfPeople);
