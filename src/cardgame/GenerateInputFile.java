@@ -1,3 +1,4 @@
+package cardgame;
 import java.util.Random;
 
 public class GenerateInputFile {
