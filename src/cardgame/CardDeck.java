@@ -54,4 +54,8 @@ public class CardDeck {
         this.maxSize = newSize;
     }
 
+    public void addCard(Card card) {
+        deck.add(card);
+    }
+
 }
