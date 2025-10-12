@@ -1,6 +1,7 @@
 package cardgame;
 import java.util.Scanner;
 import java.io.File;
+import java.util.ArrayList;
 
 
 
@@ -31,6 +32,8 @@ public class CardGame {
     }
 
     public static void main(String[] args) {
+        CardDeck initialDeck = new CardDeck();
+
         Scanner input = new Scanner(System.in);
 
         System.out.println("Enter the number of people:");
@@ -47,6 +50,26 @@ public class CardGame {
             fileLocation = input.nextLine();
             validFile = validInputFile(fileLocation, noOfPeople);
         }
+
+        ArrayList<Player> allPlayers = new ArrayList<Player>();
+
+        for (int i = 1; i <= noOfPeople; i++) {
+            Player player = new Player();
+            allPlayers.add(player);
+        }
+
+        for (int i = 0; i < 4; i++) {
+            System.out.println("card hand number: "+i);
+            for (Player player : allPlayers) {
+                System.out.println("Player being dealt: "+player);
+                player.addCardHeld(initialDeck.getTopCard());
+                initialDeck.removeCard();
+            }
+        }
+
+        // for (Player player : allPlayers) {
+        //     System.out.println(player.cardsHeld());
+        // }
     }
 }
     

@@ -15,14 +15,16 @@ public class CardDeck {
     public CardDeck() {
         this.deck = new ArrayList<>();
         this.deckId = ++idCounter;
-        this.bottomCard = -1;
+
 
         if (deck.isEmpty()) {
             this.topCard = -1;
             this.maxSize = 0;
+            this.bottomCard = -1;
         } else {
             this.topCard = 0;
             this.maxSize = deck.size();
+            this.bottomCard = deck.size() - 1;
         }
     }
 
@@ -56,6 +58,10 @@ public class CardDeck {
 
     public void addCard(Card card) {
         deck.add(card);
-    }
+    } // enqueue may be needed instead
+
+    public void removeCard() {
+        deck.remove(0);
+    } // dequeue may be needed instead
 
 }

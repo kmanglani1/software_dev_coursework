@@ -20,4 +20,12 @@ public class Player {
     public static void resetIdCounter() {
         idCounter = 0;
     }
+
+    public static void addCardHeld(Card card) {
+        cardHeld.add(card);
+    }
+
+    public static void removeCardHeld(Card card) {
+        cardHeld.remove(card.getCardValue());
+    }
 }
