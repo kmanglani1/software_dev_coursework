@@ -61,16 +61,29 @@ public class CardGame {
         for (int i = 0; i < 4; i++) {
             System.out.println("card hand number: "+i);
             for (Player player : allPlayers) {
-                System.out.println("Player being dealt: "+player);
+                System.out.println("Player being dealt: "+player.getPlayerId());
                 Card tempCard = new Card(initialDeck.getTopCard());
                 player.addCardHeld(tempCard);
                 initialDeck.removeCard();
             }
         }
 
-        // for (Player player : allPlayers) {
-        //     System.out.println(player.cardsHeld());
-        // }
+        ArrayList<CardDeck> allCardDecks = new ArrayList<CardDeck>();
+
+        for (int i = 1; i <= noOfPeople; i++) {
+            CardDeck cardDeck = new CardDeck();
+            allCardDecks.add(cardDeck);
+        }
+
+        for (int i = 0; i < 4; i++) {
+            System.out.println("card deck number: "+i);
+            for (CardDeck cardDeck : allCardDecks) {
+                System.out.println("Deck being dealt: "+cardDeck.getDeckId());
+                Card newTempCard = new Card(initialDeck.getTopCard());
+                cardDeck.addCard(newTempCard);
+                initialDeck.removeCard(); 
+            }
+        }
+
     }
 }
-    

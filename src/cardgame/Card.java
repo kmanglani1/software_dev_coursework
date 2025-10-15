@@ -10,7 +10,7 @@ public class Card {
         this.cardValue = value;
     }
 
-    public int getCardValue() {
+    public synchronized int getCardValue() {
         return cardValue;
     }
     

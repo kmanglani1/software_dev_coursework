@@ -28,39 +28,39 @@ public class CardDeck {
         }
     }
 
-    public int getDeckId() {
+    public synchronized int getDeckId() {
         return deckId;
     }
 
-    public int getTopCard() {
+    public synchronized int getTopCard() {
         return topCard;
     }
 
-    public int getBottomCard() {
+    public synchronized int getBottomCard() {
         return bottomCard;
     }
 
-    public int getMaxSize() {
+    public synchronized int getMaxSize() {
         return maxSize;
     }
 
-    public ArrayList<Card> getDeck() {
+    public synchronized ArrayList<Card> getDeck() {
         return new ArrayList<Card>(deck);
     }
 
-    public static void resetIdCounter() {
+    public synchronized static void resetIdCounter() {
         idCounter = 0;
     }
 
-    public void setMaxSize(int newSize) {
+    public synchronized void setMaxSize(int newSize) {
         this.maxSize = newSize;
     }
 
-    public void addCard(Card card) {
+    public synchronized void addCard(Card card) {
         deck.add(card);
     } // enqueue may be needed instead
 
-    public void removeCard() {
+    public synchronized void removeCard() {
         deck.remove(0);
     } // dequeue may be needed instead
 

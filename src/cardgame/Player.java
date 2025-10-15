@@ -13,19 +13,19 @@ public class Player {
         this.cardHeld = new ArrayList<>();
     }
 
-    public int getPlayerId() {
+    public synchronized int getPlayerId() {
         return playerId;
     }
 
-    public static void resetIdCounter() {
+    public synchronized static void resetIdCounter() {
         idCounter = 0;
     }
 
-    public void addCardHeld(Card card) {
+    public synchronized void addCardHeld(Card card) {
         cardHeld.add(card);
     }
 
-    public void removeCardHeld(Card card) {
+    public synchronized void removeCardHeld(Card card) {
         cardHeld.remove(card.getCardValue());
     }
 }
