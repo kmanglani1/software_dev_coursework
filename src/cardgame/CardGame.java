@@ -62,7 +62,8 @@ public class CardGame {
             System.out.println("card hand number: "+i);
             for (Player player : allPlayers) {
                 System.out.println("Player being dealt: "+player);
-                player.addCardHeld(initialDeck.getTopCard());
+                Card tempCard = new Card(initialDeck.getTopCard());
+                player.addCardHeld(tempCard);
                 initialDeck.removeCard();
             }
         }

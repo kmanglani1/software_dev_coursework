@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class Player {
 
     private final int playerId;
-    private ArrayList<Card> cardsHeld;
+    private ArrayList<Card> cardHeld;
 
     private static int idCounter = 0;
 
     public Player() {
         this.playerId = ++idCounter;
-        this.cardsHeld = new ArrayList<>();
+        this.cardHeld = new ArrayList<>();
     }
 
     public int getPlayerId() {
@@ -21,11 +21,11 @@ public class Player {
         idCounter = 0;
     }
 
-    public static void addCardHeld(Card card) {
+    public void addCardHeld(Card card) {
         cardHeld.add(card);
     }
 
-    public static void removeCardHeld(Card card) {
+    public void removeCardHeld(Card card) {
         cardHeld.remove(card.getCardValue());
     }
 }
