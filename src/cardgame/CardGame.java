@@ -51,7 +51,7 @@ public class CardGame {
             validFile = validInputFile(fileLocation, noOfPeople);
         }
 
-        ArrayList<Player> allPlayers = new ArrayList<Player>();
+        List<Player> allPlayers = Collections.synchronizedList(new ArrayList<Player>());
 
         for (int i = 1; i <= noOfPeople; i++) {
             Player player = new Player();
@@ -68,7 +68,7 @@ public class CardGame {
             }
         }
 
-        ArrayList<CardDeck> allCardDecks = new ArrayList<CardDeck>();
+        List<CardDeck> allCardDecks = Collections.synchronizedList(new ArrayList<CardDeck>());
 
         for (int i = 1; i <= noOfPeople; i++) {
             CardDeck cardDeck = new CardDeck();
@@ -84,6 +84,9 @@ public class CardGame {
                 initialDeck.removeCard(); 
             }
         }
+
+
+        
 
     }
 }

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class Player {
 
     private final int playerId;
-    private ArrayList<Card> cardHeld;
+    private List<Card> cardHeld;
 
     private static int idCounter = 0;
 
     public Player() {
         this.playerId = ++idCounter;
-        this.cardHeld = new ArrayList<>();
+        this.cardHeld = Collections.synchronizedList(new ArrayList<>());
     }
 
     public synchronized int getPlayerId() {

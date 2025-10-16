@@ -1,10 +1,12 @@
 package cardgame;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class CardDeck {
 
-    private ArrayList<Card> deck;
+    private List<Card> deck;
     private int deckId;
     private int topCard;
     private int bottomCard;
@@ -13,7 +15,7 @@ public class CardDeck {
     private static int idCounter = 0;
 
     public CardDeck() {
-        this.deck = new ArrayList<>();
+        this.deck = Collections.synchronizedList(new ArrayList<>());
         this.deckId = ++idCounter;
 
 
