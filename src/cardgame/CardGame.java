@@ -2,10 +2,24 @@ package cardgame;
 import java.util.Scanner;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 
 
-public class CardGame {
+public class CardGame extends Thread {
+
+
+    private List<Player> allPlayers;
+
+
+    public CardGame() {
+        this.allPlayers = Collections.synchronizedList(new ArrayList<Player>());
+    }
+
+
+
     public static boolean validInputFile(String fileLocation, int noOfPeople) {
         try {
             File cardFile = new File(fileLocation);
@@ -31,7 +45,33 @@ public class CardGame {
         return true;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static void main(String[] args) {
+        CardGame thisCardGame = new CardGame();
         CardDeck initialDeck = new CardDeck();
 
         Scanner input = new Scanner(System.in);
@@ -51,16 +91,16 @@ public class CardGame {
             validFile = validInputFile(fileLocation, noOfPeople);
         }
 
-        List<Player> allPlayers = Collections.synchronizedList(new ArrayList<Player>());
+        // List<Player> allPlayers = Collections.synchronizedList();
 
         for (int i = 1; i <= noOfPeople; i++) {
             Player player = new Player();
-            allPlayers.add(player);
+            thisCardGame.allPlayers.add(player);
         }
 
         for (int i = 0; i < 4; i++) {
             System.out.println("card hand number: "+i);
-            for (Player player : allPlayers) {
+            for (Player player : thisCardGame.allPlayers) {
                 System.out.println("Player being dealt: "+player.getPlayerId());
                 Card tempCard = new Card(initialDeck.getTopCard());
                 player.addCardHeld(tempCard);
@@ -89,4 +129,76 @@ public class CardGame {
         
 
     }
+
+
+
+
+
+    
+
+    public Player getPlayer(int playerId) {
+        for (Player player : allPlayers) {
+            if (playerId == player.getPlayerId()) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+
+    public Boolean checkPlayerHand(int playerId) {
+        Player player = getPlayer(playerId);
+        return player.checkHand();
+        // returns true if won
+    }
+    
+
+
+
+    // check player hand method
+        // check hand
+        // return boolean won true/false
+        
+    // play turn method
+        // picks up -print to player_output
+        // decides discarding card
+        // puts down -print to player_output
+        // print current hand to player_output
+
+    // this thread won
+        // print win to terminal
+        // print final deck contents to deck_output
+    
+    // other thread won
+        // print final deck contents to deck_output
+
+    public void run() { //public void run
+        int turnCount = 0;
+
+        if (turnCount == 0) {
+            // check no one has won
+            // if yes
+                // other thread won
+            // if not
+                // print initial hand
+        }
+
+        // check player hand
+        // if won
+            // notify
+            // this thread won
+        
+        // play turn
+
+        // if won
+            // notify
+            // this thread won
+    }
+
+
+
+
+
+
+
 }

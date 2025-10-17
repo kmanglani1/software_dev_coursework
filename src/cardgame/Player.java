@@ -1,16 +1,19 @@
 package cardgame;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class Player {
 
     private final int playerId;
-    private List<Card> cardHeld;
+    private List<Card> cardsHeld;
 
     private static int idCounter = 0;
 
     public Player() {
         this.playerId = ++idCounter;
-        this.cardHeld = Collections.synchronizedList(new ArrayList<>());
+        this.cardsHeld = Collections.synchronizedList(new ArrayList<>());
     }
 
     public synchronized int getPlayerId() {
@@ -22,10 +25,22 @@ public class Player {
     }
 
     public synchronized void addCardHeld(Card card) {
-        cardHeld.add(card);
+        cardsHeld.add(card);
     }
 
     public synchronized void removeCardHeld(Card card) {
-        cardHeld.remove(card.getCardValue());
+        cardsHeld.remove(card.getCardValue());
     }
+
+    public synchronized Boolean checkHand() {
+        Boolean hasWon = true;
+        for (Card card : cardsHeld) {
+            if (card.getCardValue() != playerId) {
+                hasWon = false;
+                return hasWon;
+            }
+        }
+        return hasWon;
+    }
+
 }
