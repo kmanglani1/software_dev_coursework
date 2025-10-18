@@ -1,6 +1,8 @@
 package cardgame;
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,10 +14,12 @@ public class CardGame extends Thread {
 
 
     private List<Player> allPlayers;
+    private List<CardDeck> allCardDecks;
 
 
     public CardGame() {
         this.allPlayers = Collections.synchronizedList(new ArrayList<Player>());
+        this.allCardDecks = Collections.synchronizedList(new ArrayList<CardDeck>());
     }
 
 
@@ -108,16 +112,16 @@ public class CardGame extends Thread {
             }
         }
 
-        List<CardDeck> allCardDecks = Collections.synchronizedList(new ArrayList<CardDeck>());
+        // List<CardDeck> allCardDecks = Collections.synchronizedList(new ArrayList<CardDeck>());
 
         for (int i = 1; i <= noOfPeople; i++) {
             CardDeck cardDeck = new CardDeck();
-            allCardDecks.add(cardDeck);
+            thisCardGame.allCardDecks.add(cardDeck);
         }
 
         for (int i = 0; i < 4; i++) {
             System.out.println("card deck number: "+i);
-            for (CardDeck cardDeck : allCardDecks) {
+            for (CardDeck cardDeck : thisCardGame.allCardDecks) {
                 System.out.println("Deck being dealt: "+cardDeck.getDeckId());
                 Card newTempCard = new Card(initialDeck.getTopCard());
                 cardDeck.addCard(newTempCard);
@@ -145,6 +149,16 @@ public class CardGame extends Thread {
         return null;
     }
 
+    public CardDeck getCardDeck(int deckId) {
+        for (CardDeck cardDeck : allCardDecks) {
+            if (deckId == cardDeck.getDeckId()) {
+                return cardDeck;
+            }
+        }
+        return null;
+    }
+
+
 
     public Boolean checkPlayerHand(int playerId) {
         Player player = getPlayer(playerId);
@@ -153,20 +167,49 @@ public class CardGame extends Thread {
     }
     
 
+    public void takeTurn(int playerId) {
+        Player player = getPlayer(playerId);
+        int pickUpDeckId = playerId;
+        ArrayList<Card> pickUpDeck = getCardDeck(pickUpDeckId).getDeckContents();
+        Card newCard = pickUpDeck.get(getCardDeck(pickUpDeckId).getTopCard());
+        player.addCardHeld(newCard);
+        getCardDeck(pickUpDeckId).removeCard();
+
+        String playerFileName = "player" + playerId + "_output.txt";
+        try {
+            FileWriter writer = new FileWriter(playerFileName);
+
+            String line = "player " + playerId + " draws a " + newCard.getCardValue() + " from deck " + pickUpDeckId;
+            writer.write(line);
+        } catch (IOException e) {
+            System.out.println("error failure");
+        }
+
+        Card oldCard = player.cardToDiscard();
+        player.removeCardHeld(oldCard);
+        int discardDeckId = playerId + 1;
+        getCardDeck(discardDeckId).addCard(oldCard);
 
 
-    // check player hand method
-        // check hand
-        // return boolean won true/false
-        
-    // play turn method
-        // picks up -print to player_output
-        // decides discarding card
-        // puts down -print to player_output
-        // print current hand to player_output
+        try {
+            FileWriter writer = new FileWriter(playerFileName);
+
+            String line1 = "player " + playerId + " discards a " + oldCard.getCardValue() + " from deck " + discardDeckId;
+            writer.write(line1);
+            String line2 = "player " + playerId + " current hand is" + player.stringCardsHeld();
+            writer.write(line2);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("error failure");
+        }
+    }
 
     // this thread won
+    public void threadWon(int threadID) {
+        
+    }
         // print win to terminal
+        // print last lines of player files
         // print final deck contents to deck_output
     
     // other thread won

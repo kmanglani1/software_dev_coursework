@@ -46,7 +46,7 @@ public class CardDeck {
         return maxSize;
     }
 
-    public synchronized ArrayList<Card> getDeck() {
+    public synchronized ArrayList<Card> getDeckContents() {
         return new ArrayList<Card>(deck);
     }
 

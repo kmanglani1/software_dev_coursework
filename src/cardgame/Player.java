@@ -43,4 +43,21 @@ public class Player {
         return hasWon;
     }
 
+    public synchronized Card cardToDiscard() {
+        for (Card card : cardsHeld) {
+            if (card.getCardValue() != playerId) {
+                return card;
+            }
+        }
+        return null;
+    }
+
+    public synchronized String stringCardsHeld() {
+        String stringOfCardsHeld = "";
+        for (Card card : cardsHeld) {
+            stringOfCardsHeld = stringOfCardsHeld + " " + card.getCardValue();
+        }
+        return stringOfCardsHeld;
+    }
+
 }
