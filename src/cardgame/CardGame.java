@@ -15,6 +15,7 @@ public class CardGame extends Thread {
 
     private List<Player> allPlayers;
     private List<CardDeck> allCardDecks;
+    private volatile boolean won = false;
 
 
     public CardGame() {
@@ -253,10 +254,14 @@ public class CardGame extends Thread {
     // other thread won
         // print final deck contents to deck_output
 
-    public void run() { //public void run
+    public void run() { // public void run
+        while (!won) {
+            
+        }
         int turnCount = 0;
 
         if (turnCount == 0) {
+            
 
             // check no one has won
             // if yes
