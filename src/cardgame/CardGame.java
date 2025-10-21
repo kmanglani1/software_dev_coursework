@@ -205,12 +205,50 @@ public class CardGame extends Thread {
     }
 
     // this thread won
-    public void threadWon(int threadID) {
-        
+    public void thisThreadWon(int threadId) {
+        System.out.println("player " + threadId + " wins");
+        String playerFileName = "player" + threadId + "_output.txt";
+        try {
+            FileWriter writer = new FileWriter(playerFileName);
+
+            String line1 = "player " + threadId + " wins";
+            writer.write(line1);
+            String line2 = "player " + threadId + " exits";
+            writer.write(line2);
+            String line3 = "player " + threadId + " final hand: " + getPlayer(threadId).stringCardsHeld();
+            writer.write(line3);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("error failure");
+        }
+        String deckFileName = "deck" + threadId + "_output.txt";
+        try {
+            FileWriter writer2 = new FileWriter(deckFileName);
+
+            String line1 = "deck" + threadId + " contents:" + getCardDeck(threadId).stringCardsHeld();
+            writer2.write(line1);
+            writer2.close();
+        } catch (IOException e) {
+            System.out.println("error failure");
+        }
     }
         // print win to terminal
         // print last lines of player files
         // print final deck contents to deck_output
+
+
+    public void otherThreadWon(int threadId) {
+        String deckFileName = "deck" + threadId + "_output.txt";
+        try {
+            FileWriter writer = new FileWriter(deckFileName);
+
+            String line1 = "deck" + threadId + " contents:" + getCardDeck(threadId).stringCardsHeld();
+            writer.write(line1);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("error failure");
+        }
+    }
     
     // other thread won
         // print final deck contents to deck_output
@@ -219,6 +257,7 @@ public class CardGame extends Thread {
         int turnCount = 0;
 
         if (turnCount == 0) {
+
             // check no one has won
             // if yes
                 // other thread won
@@ -236,6 +275,8 @@ public class CardGame extends Thread {
         // if won
             // notify
             // this thread won
+        
+        turnCount += 1;
     }
 
 

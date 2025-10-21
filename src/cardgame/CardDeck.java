@@ -66,4 +66,12 @@ public class CardDeck {
         deck.remove(0);
     } // dequeue may be needed instead
 
+    public synchronized String stringCardsHeld() {
+        String stringOfCardsHeld = "";
+        for (Card card : deck) {
+            stringOfCardsHeld = stringOfCardsHeld + " " + card.getCardValue();
+        }
+        return stringOfCardsHeld;
+    }
+
 }
