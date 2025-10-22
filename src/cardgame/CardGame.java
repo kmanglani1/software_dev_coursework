@@ -12,15 +12,16 @@ import java.util.List;
 
 public class CardGame extends Thread {
 
-
     private List<Player> allPlayers;
     private List<CardDeck> allCardDecks;
     private volatile boolean won = false;
+    private final Object lock;
 
 
     public CardGame() {
         this.allPlayers = Collections.synchronizedList(new ArrayList<Player>());
         this.allCardDecks = Collections.synchronizedList(new ArrayList<CardDeck>());
+        this.lock = new Object();
     }
 
 
@@ -78,6 +79,7 @@ public class CardGame extends Thread {
     public static void main(String[] args) {
         CardGame thisCardGame = new CardGame();
         CardDeck initialDeck = new CardDeck();
+        // Object lock = new Object();
 
         Scanner input = new Scanner(System.in);
 
@@ -216,7 +218,7 @@ public class CardGame extends Thread {
             writer.write(line1);
             String line2 = "player " + threadId + " exits";
             writer.write(line2);
-            String line3 = "player " + threadId + " final hand: " + getPlayer(threadId).stringCardsHeld();
+            String line3 = "player " + threadId + " final hand:" + getPlayer(threadId).stringCardsHeld();
             writer.write(line3);
             writer.close();
         } catch (IOException e) {
@@ -238,7 +240,22 @@ public class CardGame extends Thread {
         // print final deck contents to deck_output
 
 
-    public void otherThreadWon(int threadId) {
+    public void otherThreadWon(int threadId, int winnerId) {
+        String playerFileName = "player" + threadId + "_output.txt";
+
+        try {
+            FileWriter writer = new FileWriter(playerFileName);
+            String line1 = "player " + winnerId + " has informed player " + threadId + " that player "+ winnerId + " has won";
+            writer.write(line1);
+            String line2 = "player " + threadId + " exits";
+            writer.write(line2);
+            String line3 = "player " + threadId + " final hand:" + getPlayer(threadId).stringCardsHeld();
+            writer.write(line3);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("error failure");
+        }
+
         String deckFileName = "deck" + threadId + "_output.txt";
         try {
             FileWriter writer = new FileWriter(deckFileName);
@@ -254,12 +271,14 @@ public class CardGame extends Thread {
     // other thread won
         // print final deck contents to deck_output
 
-    public void run() { // public void run
-        while (!won) {
-            int turnCount = 0;
-            int threadId = Integer.parseInt(Thread.currentThread().getName());
 
+    public void run() { // public void run
+        int turnCount = 0;
+        int threadId = Integer.parseInt(Thread.currentThread().getName());
+        while (!won) {
+            
             if (turnCount == 0) {
+
                 String playerFileName = "player" + threadId + "_output.txt";
                 try {
                     FileWriter writer = new FileWriter(playerFileName);
@@ -270,43 +289,49 @@ public class CardGame extends Thread {
                     System.out.println("error failure");
                 }
 
-                checkPlayerHand(threadId);
+                Boolean result = checkPlayerHand(threadId);
 
-
+                if (result == true) {
+                    synchronized (lock) {
+                        won = true;
+                        lock.notifyAll();
+                    }
+                }
+                break;
             }
+
+            takeTurn(threadId);
+            Boolean result = checkPlayerHand(threadId);
+
+            if (result == true) {
+                synchronized (lock) {
+                    won = true;
+                    lock.notifyAll();
+                }
+            }
+                // break;
+
+            turnCount = turnCount + 1;  
         }
+
+
+
+        Boolean thisWon = checkPlayerHand(threadId);
+        if (thisWon == true) {
+            thisThreadWon(threadId);
+        } else {
+            int winnerId = -1;
+            for (Player player : allPlayers) {
+                if (player.checkHand()){
+                    winnerId = player.getPlayerId();
+                }
+            }
+            otherThreadWon(threadId, winnerId);
+        }
+
             
             
     }
-
-        if (turnCount == 0) {
-            
-
-            // check no one has won
-            // if yes
-                // other thread won
-            // if not
-                // print initial hand
-        }
-
-        // check player hand
-        // if won
-            // notify
-            // this thread won
-        
-        // play turn
-
-        // if won
-            // notify
-            // this thread won
-        
-        turnCount += 1;
-    }
-
-
-
-
-
 
 
 }

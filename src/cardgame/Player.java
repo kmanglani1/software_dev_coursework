@@ -34,7 +34,7 @@ public class Player {
 
     public synchronized Boolean checkHand() {
         Boolean hasWon = true;
-        Card card1 = cardsHeld.indexOf(0);
+        Card card1 = cardsHeld.get(0);
         for (Card card : cardsHeld) {
             if (card.getCardValue() != card1.getCardValue()) {
                 hasWon = false;
