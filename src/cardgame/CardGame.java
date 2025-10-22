@@ -256,9 +256,28 @@ public class CardGame extends Thread {
 
     public void run() { // public void run
         while (!won) {
-            
+            int turnCount = 0;
+            int threadId = Integer.parseInt(Thread.currentThread().getName());
+
+            if (turnCount == 0) {
+                String playerFileName = "player" + threadId + "_output.txt";
+                try {
+                    FileWriter writer = new FileWriter(playerFileName);
+                    String line1 = "player " + threadId + " initial hand" + getPlayer(threadId).stringCardsHeld();
+                    writer.write(line1);
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("error failure");
+                }
+
+                checkPlayerHand(threadId);
+
+
+            }
         }
-        int turnCount = 0;
+            
+            
+    }
 
         if (turnCount == 0) {
             
