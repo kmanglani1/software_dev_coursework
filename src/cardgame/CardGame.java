@@ -14,6 +14,7 @@ public class CardGame extends Thread {
 
     private List<Player> allPlayers;
     private List<CardDeck> allCardDecks;
+    private List<Thread> allThreads;
     private volatile boolean won = false;
     private final Object lock;
 
@@ -21,6 +22,7 @@ public class CardGame extends Thread {
     public CardGame() {
         this.allPlayers = Collections.synchronizedList(new ArrayList<Player>());
         this.allCardDecks = Collections.synchronizedList(new ArrayList<CardDeck>());
+        this.allThreads = Collections.synchronizedList(new ArrayList<Thread>());
         this.lock = new Object();
     }
 
@@ -50,31 +52,6 @@ public class CardGame extends Thread {
         }
         return true;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public static void main(String[] args) {
         CardGame thisCardGame = new CardGame();
@@ -132,16 +109,16 @@ public class CardGame extends Thread {
             }
         }
 
-
-        
-
-    }
-
-
+        for (Player player : thisCardGame.allPlayers) {
+            String idNum = String.valueOf(player.getPlayerId());
+            Thread t = new Thread(idNum);
+        }
 
 
 
-    
+
+
+    } // end of main
 
     public Player getPlayer(int playerId) {
         for (Player player : allPlayers) {
