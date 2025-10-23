@@ -29,7 +29,7 @@ public class Player {
     }
 
     public synchronized void removeCardHeld(Card card) {
-        cardsHeld.remove(card.getCardValue());
+        cardsHeld.remove(card);
     }
 
     public synchronized Boolean checkHand() {

@@ -41,6 +41,10 @@ public class CardDeck {
     public synchronized int getBottomCard() {
         return bottomCard;
     }
+    
+    public synchronized Card getCardAtPosition(int Pos) {
+        return deck.get(Pos);
+    }
 
     public synchronized int getMaxSize() {
         return maxSize;
@@ -58,16 +62,21 @@ public class CardDeck {
         this.maxSize = newSize;
     }
 
-    public void setTopCard(int card) {
-        this.topCard = card;
+    public void setTopCard(int cardValue) {
+        this.topCard = cardValue;
     }
 
-    public void setBottomCard(int card) {
-        this.bottomCard = card;
+    public void setBottomCard(int cardValue) {
+        this.bottomCard = cardValue;
     }
 
     public synchronized void addCard(Card card) {
-        deck.add(card);
+        if (topCard == -1) {
+            topCard = 0;
+            deck.add(card);
+        } else {
+            deck.add(card);
+        }
     } // enqueue may be needed instead
 
     public synchronized void removeCard() {
