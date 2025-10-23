@@ -83,9 +83,9 @@ public class CardGame extends Thread {
         }
 
         for (int i = 0; i < 4; i++) {
-            System.out.println("card hand number: "+i);
+            // System.out.println("card hand number: "+i);
             for (Player player : thisCardGame.allPlayers) {
-                System.out.println("Player being dealt: "+player.getPlayerId());
+                // System.out.println("Player being dealt: "+player.getPlayerId());
                 Card tempCard = new Card(initialDeck.getTopCard());
                 player.addCardHeld(tempCard);
                 initialDeck.removeCard();
@@ -112,7 +112,18 @@ public class CardGame extends Thread {
         for (Player player : thisCardGame.allPlayers) {
             String idNum = String.valueOf(player.getPlayerId());
             Thread t = new Thread(idNum);
+            thisCardGame.allThreads.add(t);
+            t.start();
         }
+
+        try {
+            for (Thread t : thisCardGame.allThreads) {
+                t.join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
 
 
 
