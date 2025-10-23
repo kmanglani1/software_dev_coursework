@@ -58,12 +58,38 @@ public class CardDeck {
         this.maxSize = newSize;
     }
 
+    public void setTopCard(int card) {
+        this.topCard = card;
+    }
+
+    public void setBottomCard(int card) {
+        this.bottomCard = card;
+    }
+
     public synchronized void addCard(Card card) {
         deck.add(card);
     } // enqueue may be needed instead
 
     public synchronized void removeCard() {
+        if (deck.isEmpty()) {
+            System.out.println("Error: removing card from empty deck");
+            return;
+        }
         deck.remove(0);
+        // int start = getTopCard();
+        // int end = getBottomCard();
+        // if (start == -1) {
+        //     break;
+        // } else {
+        //     Card oldTopCard = getDeckContents().get(start);
+        //     int oldTop = oldTopCard.getCardValue();
+        //     start = start + 1;
+        //     setTopCard(start);
+        //     if (start>end) {
+        //         setTopCard(-1);
+        //         setBottomCard(-1);
+        //     }
+        // }
     } // dequeue may be needed instead
 
     public synchronized String stringCardsHeld() {

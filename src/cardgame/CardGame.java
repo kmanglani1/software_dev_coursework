@@ -40,6 +40,7 @@ public class CardGame extends Thread {
                     int cardValue = fileReader.nextInt();
                     Card card = new Card(cardValue);
                     initialDeck.addCard(card);
+                    System.out.println(initialDeck.stringCardsHeld());
                 }
 
             } catch (Exception e) {
@@ -75,6 +76,9 @@ public class CardGame extends Thread {
             validFile = validInputFile(fileLocation, noOfPeople);
         }
 
+        System.out.println("Gets here 1");
+        System.out.println(initialDeck.stringCardsHeld());
+        System.out.println("Gets here 2");
         // List<Player> allPlayers = Collections.synchronizedList();
 
         for (int i = 1; i <= noOfPeople; i++) {
