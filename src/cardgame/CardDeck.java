@@ -77,6 +77,7 @@ public class CardDeck {
         } else {
             deck.add(card);
         }
+        this.maxSize = this.maxSize + 1;
     } // enqueue may be needed instead
 
     public synchronized void removeCard() {
@@ -85,6 +86,7 @@ public class CardDeck {
             return;
         }
         deck.remove(0);
+        this.maxSize = this.maxSize - 1;
         // int start = getTopCard();
         // int end = getBottomCard();
         // if (start == -1) {
