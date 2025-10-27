@@ -182,7 +182,7 @@ public class CardGame extends Thread {
         synchronized (lock) {
             while (pickUpDeck.size() == 0) {
                 try {
-                    Thread.currentThread().wait();
+                    lock.wait();
                     pickUpDeck = getCardDeck(pickUpDeckId).getDeckContents();
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -216,10 +216,12 @@ public class CardGame extends Thread {
         synchronized (lock) {
             if (discardDeck.getDeckContents().size() == 0) {
                 discardDeck.addCard(oldCard);
-                notifyAll();
+                lock.notifyAll();
+            } else {
+                discardDeck.addCard(oldCard);
             }
         }
-        discardDeck.addCard(oldCard);
+        
         
 
 
