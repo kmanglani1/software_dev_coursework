@@ -17,7 +17,7 @@ public class CardGame extends Thread {
     private List<Thread> allThreads;
     private volatile boolean won = false;
     private final Object lock;
-    private int arrived = 0;
+    // private int arrived = 0;
 
 
     public CardGame() {
@@ -178,6 +178,17 @@ public class CardGame extends Thread {
         Player player = getPlayer(playerId);
         int pickUpDeckId = playerId+1;
         ArrayList<Card> pickUpDeck = getCardDeck(pickUpDeckId).getDeckContents();
+
+        while (pickUpDeck.size() == 0) {
+            try {
+                Thread.currentThread().wait();
+                pickUpDeck = getCardDeck(pickUpDeckId).getDeckContents();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        // if statement: if pickUpDeck.length()== 0 then sleep
+
         Card newCard = pickUpDeck.get(getCardDeck(pickUpDeckId).getTopCard());
         player.addCardHeld(newCard);
         getCardDeck(pickUpDeckId).removeCard();
@@ -200,7 +211,14 @@ public class CardGame extends Thread {
         } else {
             discardDeckId = playerId + 2;
         }
-        getCardDeck(discardDeckId).addCard(oldCard);
+
+        CardDeck discardDeck = getCardDeck(discardDeckId);
+        if (discardDeck.getDeckContents().size() == 0) {
+            discardDeck.addCard(oldCard);
+            notifyAll();
+        }
+        discardDeck.addCard(oldCard);
+        
 
 
         try {
@@ -277,15 +295,15 @@ public class CardGame extends Thread {
         }
     }
 
-    public synchronized void waitForAllPlayers() throws InterruptedException {
-        arrived++;
-        if (arrived < allPlayers.size()) {
-            wait();
-        } else {
-            arrived = 0;
-            notifyAll();
-        }
-    }
+    // public synchronized void waitForAllPlayers() throws InterruptedException {
+    //     arrived++;
+    //     if (arrived < allPlayers.size()) {
+    //         wait();
+    //     } else {
+    //         arrived = 0;
+    //         notifyAll();
+    //     }
+    // }
     
     // other thread won
         // print final deck contents to deck_output
@@ -332,11 +350,11 @@ public class CardGame extends Thread {
                 // break;
 
             turnCount = turnCount + 1; 
-            try {
-                waitForAllPlayers();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            // try {
+            //     waitForAllPlayers();
+            // } catch (InterruptedException e) {
+            //     e.printStackTrace();
+            // }
              
         }
 
