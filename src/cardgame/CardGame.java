@@ -179,16 +179,17 @@ public class CardGame extends Thread {
         int pickUpDeckId = playerId+1;
         ArrayList<Card> pickUpDeck = getCardDeck(pickUpDeckId).getDeckContents();
 
-        while (pickUpDeck.size() == 0) {
-            try {
-                Thread.currentThread().wait();
-                pickUpDeck = getCardDeck(pickUpDeckId).getDeckContents();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+        synchronized (lock) {
+            while (pickUpDeck.size() == 0) {
+                try {
+                    Thread.currentThread().wait();
+                    pickUpDeck = getCardDeck(pickUpDeckId).getDeckContents();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
-        // if statement: if pickUpDeck.length()== 0 then sleep
-
+    
         Card newCard = pickUpDeck.get(getCardDeck(pickUpDeckId).getTopCard());
         player.addCardHeld(newCard);
         getCardDeck(pickUpDeckId).removeCard();
@@ -196,7 +197,6 @@ public class CardGame extends Thread {
         String playerFileName = "player" + playerId + "_output.txt";
         try {
             FileWriter writer = new FileWriter(playerFileName, true);
-
             String line = "player " + playerId + " draws a " + newCard.getCardValue() + " from deck " + pickUpDeckId + "\n";
             writer.write(line);
         } catch (IOException e) {
@@ -213,9 +213,11 @@ public class CardGame extends Thread {
         }
 
         CardDeck discardDeck = getCardDeck(discardDeckId);
-        if (discardDeck.getDeckContents().size() == 0) {
-            discardDeck.addCard(oldCard);
-            notifyAll();
+        synchronized (lock) {
+            if (discardDeck.getDeckContents().size() == 0) {
+                discardDeck.addCard(oldCard);
+                notifyAll();
+            }
         }
         discardDeck.addCard(oldCard);
         
