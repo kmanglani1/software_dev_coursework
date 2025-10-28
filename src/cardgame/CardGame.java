@@ -44,12 +44,12 @@ public class CardGame extends Thread {
                 }
 
             } catch (Exception e) {
-                System.out.println("Error occurred");
-                e.printStackTrace();
+                // System.out.println("Error occurred: Invalid File");
+                // e.printStackTrace();
                 return false;
             }
         } catch (Exception e) {
-            System.out.println("Error occurred");
+            // System.out.println("Error occurred: Invalid File");
             return false;
         }
         return true;
@@ -62,7 +62,7 @@ public class CardGame extends Thread {
 
         Scanner input = new Scanner(System.in);
 
-        System.out.println("Enter the number of people:");
+        System.out.println("Please enter the number of players:");
         int noOfPeople = input.nextInt();
 
         input.nextLine();
@@ -72,7 +72,8 @@ public class CardGame extends Thread {
         boolean validFile = validInputFile(fileLocation, noOfPeople, initialDeck);
 
         while (!validFile){
-            System.out.println("File not valid. Please enter location of pack to load:");
+            // System.out.println("File not valid. Please enter location of pack to load:");
+            System.out.println("Please enter location of pack to load:");
             fileLocation = input.nextLine();
             validFile = validInputFile(fileLocation, noOfPeople, initialDeck);
         }
@@ -146,6 +147,16 @@ public class CardGame extends Thread {
 
     } 
     // end of main
+
+    // added for testing
+    public void addPlayer(Player player) { 
+        allPlayers.add(player);
+    }
+
+    // added for testing
+    public void addDeck(CardDeck cardDeck) { 
+        allCardDecks.add(cardDeck);
+    }
 
     public Player getPlayer(int playerId) {
         for (Player player : allPlayers) {
@@ -221,8 +232,6 @@ public class CardGame extends Thread {
                 discardDeck.addCard(oldCard);
             }
         }
-        
-        
 
 
         try {
