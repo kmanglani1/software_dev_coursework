@@ -72,14 +72,6 @@ public class CardDeck {
         this.maxSize = newSize;
     }
 
-    public void setTopCard(int cardValue) {
-        this.topCard = cardValue;
-    }
-
-    public void setBottomCard(int cardValue) {
-        this.bottomCard = cardValue;
-    }
-
     // Thread-safe method to add a card to the deck
     public synchronized void addCard(Card card) {
         if (topCard == -1) { // If deck is empty
