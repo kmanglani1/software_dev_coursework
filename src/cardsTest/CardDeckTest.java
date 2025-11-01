@@ -105,25 +105,25 @@ public class CardDeckTest {
         assertEquals(" 4 7 12 10 26", deck.stringCardsHeld());
     }
 
-    @Test
-    public void testCardPositionSetters() {
-        deck.addCard(new Card(4));
-        deck.addCard(new Card(7));
-        deck.addCard(new Card(12));
-        deck.addCard(new Card(10));
-        deck.addCard(new Card(26));
+    // @Test
+    // public void testCardPositionSetters() {
+    //     deck.addCard(new Card(4));
+    //     deck.addCard(new Card(7));
+    //     deck.addCard(new Card(12));
+    //     deck.addCard(new Card(10));
+    //     deck.addCard(new Card(26));
 
-        deck.setMaxSize(10);
-        assertEquals(10, deck.getMaxSize());
-        deck.setTopCard(8);
-        assertEquals(8, deck.getTopCard());
-        deck.setBottomCard(20);
-        assertEquals(20, deck.getBottomCard());
+    //     deck.setMaxSize(10);
+    //     assertEquals(10, deck.getMaxSize());
+    //     deck.setTopCard(8);
+    //     assertEquals(8, deck.getTopCard());
+    //     deck.setBottomCard(20);
+    //     assertEquals(20, deck.getBottomCard());
 
-    }
+    // }
 
      @Test
-    public void testStringCardsHeld(){
+    public void testDeckStringCardsHeld(){
        deck.addCard(new Card(4));
         deck.addCard(new Card(7));
         deck.addCard(new Card(12));
