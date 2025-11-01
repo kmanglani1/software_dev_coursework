@@ -122,5 +122,15 @@ public class CardDeckTest {
 
     }
 
+     @Test
+    public void testStringCardsHeld(){
+       deck.addCard(new Card(4));
+        deck.addCard(new Card(7));
+        deck.addCard(new Card(12));
+        deck.addCard(new Card(10));
+        deck.addCard(new Card(26));
+        assertEquals(" 4 7 12 10 26", deck.stringCardsHeld());
+    }
+
 
 }
